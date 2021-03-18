@@ -37,6 +37,9 @@
               {% if item.status != 'Completed' %}
                 <a href="{{ url_for('complete_item', id=item.id) }}" class="btn btn-sm btn-primary">Mark as Complete</a>
               {% endif %}
+              {% if item.status == 'Completed' %}
+                <a href="{{ url_for('complete_item', id=item.id) }}" class="btn btn-sm btn-primary">Completed</a>
+              {% endif %}
             </div>
           </li>
         {% endfor %}
