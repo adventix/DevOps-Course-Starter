@@ -20,14 +20,19 @@ def add_item():
     return redirect(url_for('index'))
   
 
-@app.route('/items/<id>/complete')
+@app.route('/items/<id>/complete', methods=["POST"])
 def complete_item(id):
-    trello.complete_item(id)
+    trello.complete_item_trello(id)
     return redirect(url_for('index'))
 
-@app.route('/items/<id>/start')
+@app.route('/items/<id>/start', methods=["POST"])
 def start_item(id):
-    trello.start_item(id)
+    trello.start_item_trello(id)
+    return redirect(url_for('index'))
+
+@app.route('/items/<id>/uncomplete', methods=["POST"])
+def uncomplete_item(id):
+    trello.uncomplete_item_trello(id)
     return redirect(url_for('index'))
 
 if __name__ == '__main__':

@@ -69,11 +69,23 @@ def add_item_trello(title):
     query = build_auth_query()
     query['idList'] = get_trello_todo_listid()
     query['name'] = title
-    requests.post(f"{BASE_URL}cards/"), params=query)
+    requests.post(f"{BASE_URL}cards/", params=query)
     return 
 
 #def create_trello_todo_cards():
-def start_item_trello():
-    start = requests.put(f"{BASE_URL}cards/{}{get_trello_doing_listid()}", params=build_auth_query())
-    start_json = start.json()
-    for start in start_json 
+def start_item_trello(id):
+    query = build_auth_query() 
+    query['idList'] = get_trello_doing_listid()
+    requests.put(f"{BASE_URL}cards/{id}" , params=query)
+
+
+def complete_item_trello(id):
+    query = build_auth_query() 
+    query['idList'] = get_trello_done_listid()
+    requests.put(f"{BASE_URL}cards/{id}" , params=query)
+
+def uncomplete_item_trello(id):
+    query = build_auth_query() 
+    query['idList'] = get_trello_todo_listid()
+    requests.put(f"{BASE_URL}cards/{id}" , params=query)
+
