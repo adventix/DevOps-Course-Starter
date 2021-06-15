@@ -14,7 +14,6 @@ def index():
 
 @app.route('/items/new', methods=["POST"])
 def add_item():
-  if request.method == "POST":
     title = request.form['title']
     trello.add_item_trello(title)
     return redirect(url_for('index'))
