@@ -1,4 +1,34 @@
 {% extends "layout.html" %}
+
+{% macro display_item(item) -%}
+<li class="list-group-item">
+  <div class="d-flex w-100 justify-content-between">
+    <h5 class="mb-1">{{ item.title }}</h5>
+    {% if item.status == 'Done' %}
+      {% set badge_style = 'badge-success' %}
+    {% elif item.status == 'To Do' %}
+      {% set badge_style = 'badge-secondary' %}
+    {% else %}
+      {% set badge_style = 'badge-primary' %}
+    {% endif %}
+    <div><span class="badge {{ badge_style }}">{{ item.status }}</span></div>
+  </div>
+  {% if item.status == 'Done' %}
+  <form action="{{ url_for('uncomplete_item', id=item.id) }}" method="POST"> 
+    <button type="submit" name="Uncomplete" class="btn btn-sm btn-secondary">Uncomplete</button> 
+    </form>
+  {% elif item.status == 'To Do' %}
+    <form action="{{ url_for('start_item', id=item.id) }}" method="POST"> 
+     <button type="submit" name="start" class="btn btn-sm btn-success">Start</button>  
+    </form>
+  {% else %}
+  <form action="{{ url_for('complete_item', id=item.id) }}" method="POST"> 
+    <button type="submit" name="complete" class="btn btn-sm btn-primary">Complete</button> 
+    </form>
+  {% endif %}
+</li>
+{%- endmacro %}
+
 {% block title %}To-Do App{% endblock %}
 
 {% block content %}
@@ -12,11 +42,8 @@
       <h2>New item</h2>
       <form action="{{ url_for('add_item') }}" method="POST">
         <div class="form-group form-row align-items-center">
-          <div class="col-auto">
-            <label for="title-input">Title</label>
-          </div>
           <div class="col">
-            <input type="text" name="title" id="title-input" class="form-control">
+            <input type="text" name="title" id="name-input" class="form-control" placeholder="title" aria-label="title">
           </div>
           <div class="col-auto">
             <button type="submit" class="btn btn-success">Add Item</button>
@@ -31,17 +58,7 @@
       <h2>Items</h2>
       <ul class="list-group mb-4">
         {% for item in items %}
-          <li class="list-group-item flex-column">
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="mt-1 mb-1">{{ item.title }}</h5>
-              {% if item.status != 'Completed' %}
-                <a href="{{ url_for('complete_item', id=item.id) }}" class="btn btn-sm btn-primary">Mark as Complete</a>
-              {% endif %}
-              {% if item.status == 'Completed' %}
-                <a href="{{ url_for('complete_item', id=item.id) }}" class="btn btn-sm btn-primary">Completed</a>
-              {% endif %}
-            </div>
-          </li>
+          {{ display_item(item) }}
         {% endfor %}
       </ul>
     </div>

@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from todo_app.flask_config import Config
-from todo_app.data import session_items as session
+from todo_app.data import trello_items as trello
 
 
 app = Flask(__name__)
@@ -9,20 +9,29 @@ app.config.from_object(Config)
 
 @app.route('/')
 def index():
-    items = session.get_items()
+    items = trello.get_trello_cards()
     return render_template('index.html', items = items)
 
 @app.route('/items/new', methods=["POST"])
 def add_item():
-  if request.method == "POST":
     title = request.form['title']
-    session.add_item(title)
+    trello.add_item_trello(title)
     return redirect(url_for('index'))
   
 
-@app.route('/items/<id>/complete')
+@app.route('/items/<id>/complete', methods=["POST"])
 def complete_item(id):
-    session.complete_item(id)
+    trello.complete_item_trello(id)
+    return redirect(url_for('index'))
+
+@app.route('/items/<id>/start', methods=["POST"])
+def start_item(id):
+    trello.start_item_trello(id)
+    return redirect(url_for('index'))
+
+@app.route('/items/<id>/uncomplete', methods=["POST"])
+def uncomplete_item(id):
+    trello.uncomplete_item_trello(id)
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
