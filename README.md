@@ -40,6 +40,9 @@ You can obtain the key and token from the trello website once you sign up.
 
 Next you will need to enter a board name into the code, this can either exist and it will retrieve the existing board within your code or it will create a new board. The code is found in trello_items with the variable TRELLO_BOARD=xxxx
 
+
+Please note that the app will only function with the following lists: "To Do" "Doing" and "Done" - these will need to exist for this to function and is the default trello provides when building a new board. 
+
 ## Running the App
 
 Once the all dependencies have been installed, start the Flask app in development mode within the poetry environment by running:
