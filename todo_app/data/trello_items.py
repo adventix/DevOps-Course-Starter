@@ -37,7 +37,6 @@ def get_trello_todo_listid():
     for list in lists_json:
         if list['name'] == "To Do":
             return list['id']
-#print(get_trello_todo_listid())
 
 def get_trello_doing_listid():
     lists = requests.get(f"{BASE_URL}boards/{get_trello_board_id()}/lists", params=build_auth_query())
@@ -45,7 +44,6 @@ def get_trello_doing_listid():
     for list in lists_json:
         if list['name'] == "Doing":
             return list['id']
-#print(get_trello_doing_listid())
 
 def get_trello_done_listid():
     lists = requests.get(f"{BASE_URL}boards/{get_trello_board_id()}/lists", params=build_auth_query())
@@ -53,14 +51,12 @@ def get_trello_done_listid():
     for list in lists_json:
         if list['name'] == "Done":
             return list['id']
-#print(get_trello_done_listid())
 
 class Item:
     def __init__(self, id, title, status='To Do'):
         self.id = id
         self.status = status
         self.title = title
-        #self.lastmodifieddate = lastmodifieddate
 
 
 def get_trello_cards():
@@ -78,7 +74,6 @@ def get_trello_cards():
             raise AttributeError
         items.append(Item(card['id'], card['name'], cardstatus))
     return items
-#print(get_trello_cards())
 
 def add_item_trello(title):
     query = build_auth_query()
@@ -87,7 +82,6 @@ def add_item_trello(title):
     requests.post(f"{BASE_URL}cards/", params=query)
     return 
 
-#def create_trello_todo_cards():
 def start_item_trello(id):
     query = build_auth_query() 
     query['idList'] = get_trello_doing_listid()
