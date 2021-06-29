@@ -38,11 +38,7 @@ TRELLO_API_TOKEN=xxxx
 
 You can obtain the key and token from the trello website once you sign up. 
 
-Next you will need to have a board in Trello created already and you'll need to provide the exact board name in the configuration file trello_items.py. This will require you to modify the following function and specific line of code:
-get_trello_board_id():
-if list['name'] == "Aaronboard":
-
-Where "Aaronboard" is located you must modify it to your board name.
+Next you will need to enter a board name into the code, this can either exist and it will retrieve the existing board within your code or it will create a new board. The code is found in trello_items with the variable TRELLO_BOARD=xxxx
 
 ## Running the App
 

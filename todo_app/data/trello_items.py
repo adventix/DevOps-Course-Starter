@@ -5,17 +5,32 @@ def build_auth_query():
     return {'key' : Config.TRELLO_API_KEY, 'token' : Config.TRELLO_API_TOKEN}
 
 BASE_URL= "https://api.trello.com/1/"
-
+BOARD_NAME= "Aaronboard"
 
 def get_trello_board_id():
     boards = requests.get(f"{BASE_URL}members/me/boards", params=build_auth_query())
     boards_json = boards.json()
+    boardexists = 0
     for list in boards_json:
-        if list['name'] == "Aaronboard":
-            return list["id"]
-    #return Config.TRELLO_BOARD_ID
-#print(get_trello_board_id())
-#
+        if list['name'] == BOARD_NAME:
+            boardexists = 1
+            boardid = list['id']
+    
+    if boardexists == 0:  
+        boardid = build_trello_board()
+        return boardid
+    else:
+        return boardid 
+
+
+
+def build_trello_board():
+    query = build_auth_query()
+    query['name'] = BOARD_NAME
+    response = requests.post(f"{BASE_URL}boards/", params=query)
+    response_json = response.json()
+    return response_json["id"]
+
 def get_trello_todo_listid():
     lists = requests.get(f"{BASE_URL}boards/{get_trello_board_id()}/lists", params=build_auth_query())
     lists_json = lists.json()
